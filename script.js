@@ -107,4 +107,43 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbotPanel = document.getElementById('chatbot-panel');
+    const chatbotClose = document.getElementById('chatbot-close');
+
+    if (chatbotToggle && chatbotPanel && chatbotClose) {
+        const setChatbotState = open => {
+            if (open) {
+                chatbotPanel.classList.add('open');
+                chatbotPanel.setAttribute('aria-hidden', 'false');
+            } else {
+                chatbotPanel.classList.remove('open');
+                chatbotPanel.setAttribute('aria-hidden', 'true');
+            }
+        };
+
+        chatbotToggle.addEventListener('click', () => {
+            setChatbotState(!chatbotPanel.classList.contains('open'));
+        });
+
+        chatbotClose.addEventListener('click', () => {
+            setChatbotState(false);
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && chatbotPanel.classList.contains('open')) {
+                setChatbotState(false);
+            }
+        });
+
+        document.addEventListener('click', event => {
+            const target = event.target;
+            if (chatbotPanel.classList.contains('open') &&
+                !chatbotPanel.contains(target) &&
+                !chatbotToggle.contains(target)) {
+                setChatbotState(false);
+            }
+        });
+    }
 });
